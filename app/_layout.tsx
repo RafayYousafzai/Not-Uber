@@ -7,9 +7,11 @@ import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { ClerkProvider, ClerkLoaded } from "@clerk/clerk-expo";
 import { tokenCache } from "@/lib/auth";
+import * as NavigationBar from "expo-navigation-bar";
 
-// Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
+NavigationBar.setBackgroundColorAsync("#ffffff00");
+NavigationBar.setPositionAsync("absolute");
 
 export default function RootLayout() {
   const [loaded] = useFonts({
@@ -26,7 +28,7 @@ export default function RootLayout() {
 
   if (!publishableKey) {
     throw new Error(
-      "Missing Publishable Key. Please set EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY in your .env",
+      "Missing Publishable Key. Please set EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY in your .env"
     );
   }
 
