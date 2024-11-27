@@ -1,19 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { ActivityIndicator, Text, View } from "react-native";
 import MapView, { Marker, PROVIDER_DEFAULT } from "react-native-maps";
-import MapViewDirections from "react-native-maps-directions";
 
 import { icons } from "@/constants";
-// import { useFetch } from "@/lib/fetch";
 import {
   calculateDriverTimes,
   calculateRegion,
   generateMarkersFromData,
 } from "@/lib/map";
 import { useDriverStore, useLocationStore } from "@/store";
-import { Driver, MarkerData } from "@/types/type";
-
-const directionsAPI = process.env.EXPO_PUBLIC_DIRECTIONS_API_KEY;
+import { MarkerData } from "@/types/type";
 
 const drivers = [
   {
@@ -71,6 +66,7 @@ const Map = () => {
   } = useLocationStore();
   const { selectedDriver, setDrivers } = useDriverStore();
 
+  // const { data: drivers, loading, error } = useFetch<Driver[]>("/(api)/driver");
   const [markers, setMarkers] = useState<MarkerData[]>([]);
 
   useEffect(() => {
@@ -79,8 +75,8 @@ const Map = () => {
 
       const newMarkers = generateMarkersFromData({
         data: drivers,
-        userLatitude: 37.78825,
-        userLongitude: -122.4324,
+        userLatitude,
+        userLongitude,
       });
 
       setMarkers(newMarkers);
@@ -93,15 +89,7 @@ const Map = () => {
       destinationLatitude !== undefined &&
       destinationLongitude !== undefined
     ) {
-      calculateDriverTimes({
-        markers,
-        userLatitude,
-        userLongitude,
-        destinationLatitude,
-        destinationLongitude,
-      }).then((drivers) => {
-        setDrivers(drivers as MarkerData[]);
-      });
+      setDrivers(drivers as MarkerData[]);
     }
   }, [markers, destinationLatitude, destinationLongitude]);
 
@@ -137,33 +125,6 @@ const Map = () => {
           }
         />
       ))}
-
-      {destinationLatitude && destinationLongitude && (
-        <>
-          <Marker
-            key="destination"
-            coordinate={{
-              latitude: destinationLatitude,
-              longitude: destinationLongitude,
-            }}
-            title="Destination"
-            image={icons.pin}
-          />
-          <MapViewDirections
-            origin={{
-              latitude: userLatitude!,
-              longitude: userLongitude!,
-            }}
-            destination={{
-              latitude: destinationLatitude,
-              longitude: destinationLongitude,
-            }}
-            apikey={directionsAPI!}
-            strokeColor="#0286FF"
-            strokeWidth={2}
-          />
-        </>
-      )}
     </MapView>
   );
 };
