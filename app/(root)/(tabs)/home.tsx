@@ -13,15 +13,13 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-// import GoogleTextInput from "@/components/GoogleTextInput";
+import GoogleTextInput from "@/components/GoogleTextInput";
 import Map from "@/components/Map";
 import RideCard from "@/components/RideCard";
 import { icons, images } from "@/constants";
 import { useFetch } from "@/lib/fetch";
 import { useLocationStore } from "@/store";
 import { Ride } from "@/types/type";
-import React from "react";
-import GoogleTextInput from "@/components/GoogleTextInput";
 
 const Home = () => {
   const { user } = useUser();
@@ -58,8 +56,8 @@ const Home = () => {
       });
 
       setUserLocation({
-        latitude: 37.78825,
-        longitude: -122.4324,
+        latitude: location.coords?.latitude,
+        longitude: location.coords?.longitude,
         address: `${address[0].name}, ${address[0].region}`,
       });
     })();
