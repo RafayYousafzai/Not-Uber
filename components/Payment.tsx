@@ -12,11 +12,11 @@ import { useLocationStore } from "@/store";
 import { PaymentProps } from "@/types/type";
 
 const Payment = ({
-  fullName = "rafay",
-  email = "rafay@gmail.com",
-  amount = "120",
-  driverId = 123,
-  rideTime = 123,
+  fullName,
+  email,
+  amount,
+  driverId,
+  rideTime,
 }: PaymentProps) => {
   const { initPaymentSheet, presentPaymentSheet } = useStripe();
   const {
@@ -38,7 +38,6 @@ const Payment = ({
 
     if (error) {
       Alert.alert(`Error code: ${error.code}`, error.message);
-      console.log(`Error code: ${error.code}`, error.message);
     } else {
       setSuccess(true);
     }
@@ -88,7 +87,7 @@ const Payment = ({
             });
 
             if (result.client_secret) {
-              await fetchAPI("/(api)/ride/ ", {
+              await fetchAPI("/(api)/ride/create", {
                 method: "POST",
                 headers: {
                   "Content-Type": "application/json",

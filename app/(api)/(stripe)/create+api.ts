@@ -39,7 +39,6 @@ export async function POST(request: Request) {
     customer: customer.id,
     automatic_payment_methods: {
       enabled: true,
-      allow_redirects: "never",
     },
   });
 
