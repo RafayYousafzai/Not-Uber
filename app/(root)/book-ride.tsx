@@ -7,7 +7,6 @@ import RideLayout from "@/components/RideLayout";
 import { icons } from "@/constants";
 import { formatTime } from "@/lib/utils";
 import { useDriverStore, useLocationStore } from "@/store";
-import React from "react";
 
 const BookRide = () => {
   const { user } = useUser();

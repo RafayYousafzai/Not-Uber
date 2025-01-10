@@ -71,6 +71,7 @@ export const calculateRegion = ({
     longitudeDelta,
   };
 };
+
 export const calculateDriverTimes = async ({
   markers,
   userLatitude,
@@ -94,54 +95,27 @@ export const calculateDriverTimes = async ({
 
   try {
     const timesPromises = markers.map(async (marker) => {
-      // Fetch time from marker to user
       const responseToUser = await fetch(
         `https://maps.googleapis.com/maps/api/directions/json?origin=${marker.latitude},${marker.longitude}&destination=${userLatitude},${userLongitude}&key=${directionsAPI}`,
       );
-
       const dataToUser = await responseToUser.json();
+      const timeToUser = dataToUser.routes[0].legs[0].duration.value; // Time in seconds
 
-      // Validate the response structure for the first route
-      const timeToUser =
-        dataToUser.routes?.[0]?.legs?.[0]?.duration?.value ?? null;
-
-      if (!timeToUser) {
-        console.warn(
-          `No valid route found for marker ${marker.id} to user. Skipping this marker.`,
-        );
-        return null;
-      }
-
-      // Fetch time from user to destination
       const responseToDestination = await fetch(
         `https://maps.googleapis.com/maps/api/directions/json?origin=${userLatitude},${userLongitude}&destination=${destinationLatitude},${destinationLongitude}&key=${directionsAPI}`,
       );
-
       const dataToDestination = await responseToDestination.json();
-
-      // Validate the response structure for the first route
       const timeToDestination =
-        dataToDestination.routes?.[0]?.legs?.[0]?.duration?.value ?? null;
+        dataToDestination.routes[0].legs[0].duration.value; // Time in seconds
 
-      if (!timeToDestination) {
-        console.warn(
-          `No valid route found for user to destination. Skipping this marker.`,
-        );
-        return null;
-      }
-
-      // Calculate total time and price
       const totalTime = (timeToUser + timeToDestination) / 60; // Total time in minutes
       const price = (totalTime * 0.5).toFixed(2); // Calculate price based on time
 
       return { ...marker, time: totalTime, price };
     });
 
-    // Filter out any null results due to skipped markers
-    const results = await Promise.all(timesPromises);
-    return results.filter((result) => result !== null);
+    return await Promise.all(timesPromises);
   } catch (error) {
     console.error("Error calculating driver times:", error);
-    return [];
   }
 };

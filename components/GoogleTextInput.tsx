@@ -4,8 +4,7 @@ import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplet
 import { icons } from "@/constants";
 import { GoogleInputProps } from "@/types/type";
 
-const googlePlacesApiKey = process.env.EXPO_PUBLIC_GOOGLE_API_KEY;
-console.log("Google Places API Key:", googlePlacesApiKey);
+const googlePlacesApiKey = process.env.EXPO_PUBLIC_PLACES_API_KEY;
 
 const GoogleTextInput = ({
   icon,
@@ -76,9 +75,6 @@ const GoogleTextInput = ({
         textInputProps={{
           placeholderTextColor: "gray",
           placeholder: initialLocation ?? "Where do you want to go?",
-        }}
-        onFail={(error) => {
-          console.log(error);
         }}
       />
     </View>

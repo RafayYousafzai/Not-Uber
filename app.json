@@ -1,13 +1,17 @@
 {
   "expo": {
-    "name": "Not-Uber",
-    "slug": "Not-Uber",
+    "name": "uber",
+    "slug": "uber",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
-    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/images/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#2F80ED"
+    },
     "ios": {
       "supportsTablet": true
     },
@@ -16,7 +20,7 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.rafaykhan177.NotUber"
+      "package": "com.rafaykhan177.uber"
     },
     "web": {
       "bundler": "metro",
@@ -27,19 +31,9 @@
       [
         "expo-router",
         {
-          "origin": "https://github.com/"
+          "origin": "https://uber.dev/"
         }
-      ],
-      [
-        "expo-splash-screen",
-        {
-          "image": "./assets/images/splash.png",
-          "imageWidth": 200,
-          "resizeMode": "contain",
-          "backgroundColor": "#ffffff"
-        }
-      ],
-      "expo-secure-store"
+      ]
     ],
     "experiments": {
       "typedRoutes": true
